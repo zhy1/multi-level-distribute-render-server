@@ -15,10 +15,10 @@ npm run start
 
 
  - start download foreach
- - start download : no.1 url:http://admin.itrace.com/resource/template/2016-08-05/leoeji/index0728/index.css
- - start download : no.2 url:http://admin.itrace.com/resource/template/2016-08-05/leoeji/index0728/index.json
- - start download : no.3 url:http://admin.itrace.com/resource/template/2016-08-05/leoeji/index0728/index.tar
- - start download : no.4 url:http://admin.itrace.com/resource/template/2016-08-05/leoeji/index0728/index.html
+ - start download : no.1 url:http://admin.*.com/resource/template/2016-08-05/leoeji/index0728/index.css
+ - start download : no.2 url:http://admin.*.com/resource/template/2016-08-05/leoeji/index0728/index.json
+ - start download : no.3 url:http://admin.*.com/resource/template/2016-08-05/leoeji/index0728/index.tar
+ - start download : no.4 url:http://admin.*.com/resource/template/2016-08-05/leoeji/index0728/index.html
  > start thread to render
  - download complete
  - start inject fn {
