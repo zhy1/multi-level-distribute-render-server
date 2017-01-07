@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>chose</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/angular/angular.js"></script>
+    <link href="javascripts/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="http://cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css" rel="stylesheet">
+    <link href="project/index/index.css" rel="stylesheet"/>
+</head>
+<body ng-controller="choseController" class="container">
+<div class="row">
+    <div class="col-md-1">
+        <make-Chose></make-Chose>
+    </div>
+
+    <div class="col-md-6">
+        <lazy-load></lazy-load>
+    </div>
+
+    <div class="col-md-1">
+        <load-Product></load-Product>
+        <button class="btn-default btn" ng-click="save()">保存</button>
+    </div>
+</div>
+
+
+<script>
+    var choseApp = angular.module("choseApp", []);
+    choseApp.controller("choseController", ['$scope', '$http', function ($scope, $http) {
+    }
+    ])
+    choseApp.directive("lazyLoad", ["$http", "$compile", "$timeout", function ($http, $compile, $timeout) {
+        return {
+            restrict: "E",
+            replace: !1,
+            priority: 100,
+            compile: function (element, attrs, transclude, ctrl) {
+                return {
+                    pre: function (scope, element, attrs, ctrl) {
+                        $http.get("project/index/index.html").success(function (data) {
+                            element.html("").append($compile("<hr><div>" + data.match(/<body[\s\S]*?>([\s\S]*?)<\/body>/)[1] + "</div>")(scope));
+                        })
+                    }
+                }
+            }
+        }
+    }])
+    choseApp.directive("loadProduct", ["$http", "$compile", "$timeout", function ($http, $compile, $timeout) {
+        return {
+            restrict: "E",
+            replace: !1,
+            priority: 100,
+            compile: function (element, attrs, transclude, ctrl) {
+                return {
+                    pre: function (scope, element, attrs, ctrl) {
+                        $http.get("project/index/index.json").success(function (data) {
+                            scope.render = data.render;
+//                            element.html("").append($compile('<select class="col-md-offset-1 btn zhugebut" ng-model="e"ng-options="m.id as m.productName for m in opt2"> <option value="">- 请选择产品 -</option> </select>')(scope));
+                            element.html("").append($compile('<select class="col-md-offset-1 btn zhugebut" ng-model="e"ng-options="m.id as m.productName for m in opt2"></select>')(scope));
+                            scope.e= 0;
+                            angular.extend(scope, scope.render[scope.e]);
+                            angular.extend(scope.opt2 = {}, scope.render)
+                            console.log("scope: " + scope);
+                            scope.$watch("e", function (newVal, oldVal) {
+                                if (newVal !== oldVal) {
+                                    angular.extend(scope, scope.render[scope.e]);
+                                }
+                            })
+                        })
+                    }
+                }
+            }
+        }
+    }])
+    choseApp.directive("makeChose", ["$http", "$compile", "$timeout", function ($http, $compile, $timeout) {
+        return {
+            restrict: "E",
+            replace: !1,
+            priority: 100,
+            compile: function (element, attrs, transclude, ctrl) {
+                return {
+                    pre: function (scope, element, attrs, ctrl) {
+                        $http.get("project/index/index.json").success(function (data) {
+                                    scope.data = data;
+                                    angular.extend(scope, data.render)
+                                    scope.opt = {};
+                                    this.tpl = ""
+                                    for (var i = 0, j = data.style.length; i < j; i++) {
+                                        for (var a in data.style[i]) {
+                                            if (data.style[i].hasOwnProperty(a)) {
+                                                scope[a] = data.style[i][a].default;
+                                                scope.opt[a] = data.style[i][a].able;
+                                                this.tpl += "<select class='col-md-offset-1 btn zhugebut' ng-model=" + a + " ng-options='m.value as m.explain for m in opt." + a + " '> <option value=''>- 请选择 -</option></select> ";
+                                            }
+                                        }
+                                    }
+                                    this.tpl = "<div>" + this.tpl + "</div>";
+                                    console.info(this.tpl);
+                                    element.html("").append($compile(this.tpl)(scope));
+                                }
+                        )
+                        scope.save = function () {
+                            var param = {
+                                product: scope.e,
+                                project:"index"
+                            }
+                            for (var i = 0, j = scope.data.style.length; i < j; i++) {
+                                for (var a in scope.data.style[i]) {
+                                    if (scope.data.style[i].hasOwnProperty(a)) {
+                                        param[a] = scope[a];
+                                    }
+                                }
+                            }
+                            $http.post("/template/save", param).success(function (data) {
+                                console.log(data);
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }])
+    angular.bootstrap(document, ['choseApp']);
+//    angular.bootstrap(document, ['choseApp']);
+
+/*    //var appendNumber = 4;
+    //var prependNumber = 1;
+    var swiper2 = new Swiper('.swiper-container2', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next2',
+        prevButton: '.swiper-button-prev2',
+        slidesPerView: 1,
+        centeredSlides: true,
+        paginationClickable: true,
+        spaceBetween: 30,
+    });
+    var swiper3 = new Swiper('.swiper-container3', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next3',
+        prevButton: '.swiper-button-prev3',
+        slidesPerView: 1,
+        centeredSlides: true,
+        paginationClickable: true,
+        spaceBetween: 30,
+    });
+    //Initialize Swiper
+    var swiper1 = new Swiper('.swiper-container1', {
+        pagination: '.swiper-p1',
+        paginationClickable: true,
+        direction: 'vertical'
+    });
+
+    (function (doc, win) {
+        var docEl = doc.documentElement, resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if (clientWidth >= 750) {
+                        docEl.style.fontSize = '100px';
+                    }
+                    else {
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);*/
+
+
+
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if(!clientWidth) return;
+                    if(clientWidth >= 750) {
+                        docEl.style.fontSize = '100px';
+                    } else {
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+        if(!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+
+    (function(doc) {
+        doc.addEventListener('DOMContentLoaded', shuffling, false);
+        doc.addEventListener('DOMContentLoaded', preview, false);
+        function preview () {
+            var reportList = document.getElementsByClassName("reportList");
+            var qualificationList = document.getElementsByClassName("qualificationList");
+            var mask = document.getElementById("mask");
+            var maskImg = document.getElementById("maskImg");
+            var showList = document.getElementsByClassName('showList');
+            for (var i=0;i<showList.length;i++) {
+                showList[i].addEventListener('click',function  () {
+                    maskImg.setAttribute("src",this.src)
+                    mask.style.display = "block";
+                    console.log(maskImg)
+                },false)
+            }
+            mask.addEventListener("click",function(){
+                mask.style.display = "none";
+            })
+
+
+        }
+
+
+
+        function shuffling() {
+            var roundList = document.getElementById("roundList");
+            var list = roundList.getElementsByTagName("li");
+            var wrap = document.getElementById("wrap");
+            var middle = document.getElementById("middle");
+            var imgs = middle.getElementsByTagName("img");
+            var wrapWidth = wrap.offsetWidth;
+            for(var i = 0; i < imgs.length; i++) {
+                imgs[i].style.width = wrapWidth + "px";
+            }
+            var index = 0;
+            var timer = setInterval(function() {
+                move();
+            }, 2000)
+
+            console.log(imgs.length)
+
+            function move() {
+                index++;
+                if(index <= 0) {
+                    index = imgs.length - 1;
+                }
+                if(index >= imgs.length) {
+                    index = 0;
+                }
+                console.log(index, 'index');
+                middle.style.left = -index * wrapWidth + 'px';
+
+                for (var i=0;i<list.length;i++) {
+                    list[i].style.backgroundColor = "#EEEEEE";
+                }
+
+                list[index].style.backgroundColor = "#2E9BD3";
+            }
+
+            var startX = 0;
+            var startY = 0;
+            wrap.addEventListener('touchstart', function(ev) {
+                var tag = ev.touches[0];
+                startX = tag.pageX;
+                startY = tag.pageY;
+                //	console.log(startX+","+startY);
+
+            })
+            var endX = 0;
+            var endY = 0;
+            wrap.addEventListener('touchend', function(ev) {
+                clearInterval(timer);
+                var tag = ev.changedTouches[0];
+                endX = tag.pageX;
+                endY = tag.pageY;
+                //	console.log(endX+","+endY)
+                if(startX - endX > 0) {
+                    //	alert("往左滑动")
+                    //向左滑
+                    index++;
+                    if(index >= imgs.length) {
+                        index = 0;
+                    }
+                } else {
+                    index--;
+                    if(index < 0) {
+                        index = imgs.length - 1;
+                    }
+                }
+
+                middle.style.left = -index * wrapWidth + 'px';
+                for (var i=0;i<list.length;i++) {
+                    list[i].style.backgroundColor = "#EEEEEE";
+                }
+                list[index].style.backgroundColor = "#2E9BD3";
+
+
+                clearInterval(timer);
+                timer = setInterval(function() {
+                    move();
+                }, 2000)
+
+//						console.log(startX - endX)
+//						console.log(index, 'index');
+            })
+        }
+
+    })(document)
+</script>
+
+<style>
+    span {
+        display: block
+    }
+</style>
+</body>
+</html>
+
+<!-- http://www.tuicool.com/articles/RniIRv -->

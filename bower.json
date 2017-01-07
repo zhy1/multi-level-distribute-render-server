@@ -1,0 +1,23 @@
+{
+  "name": "multi-level-distribute-render-server",
+  "description": "",
+  "main": "",
+  "authors": [
+    "fermi <aorv@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/javascripts",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery":"*",
+    "angular": "^1.5.7",
+    "bootstrap":"3.3.6"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "multi-level-distribute-render-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "a":"npm install&&bower install --allow-root &&npm run start",
+    "start": "./node_modules/.bin/babel-node --presets react,es2015 ./bin/www"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-inject": "^3.0.0",
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "ejs": "~2.3.3",
+    "express": "^4.13.3",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "xtpl": "3.2.0",
+    "xtemplate": "4.5.1",
+    "q": "1.4.1",
+    "babel": "^6.3.13",
+    "babel-cli": "^6.3.15",
+    "babel-core": "^6.3.15",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "webpack": "^1.12.9",
+    "fs-extra": "0.30.0",
+    "fstream": "^1.0.10",
+    "tar": "^2.2.1",
+    "download": "^5.0.2",
+    "request": "*",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+  }
+}
