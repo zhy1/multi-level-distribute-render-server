@@ -4,6 +4,8 @@
 
 multi-level-distribute-render-server
 
+多次分步骤渲染服务
+
 2016.8.8
 
 npm run start
