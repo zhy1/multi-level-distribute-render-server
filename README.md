@@ -8,7 +8,9 @@ multi-level-distribute-render-server
 
 可以在服务端和客户端写同一套模版页面，进行配置化的渲染。
 
-前段支持angular.js，后段使用xtemplate
+前端支持angular.js，后端使用xtemplate
+
+写这个项目的初衷是公司项目要做静态化宣传页，而宣传页经常会变化
 
 2016.8.8
 
