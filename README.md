@@ -6,6 +6,10 @@ multi-level-distribute-render-server
 
 多次分步骤渲染服务
 
+可以在服务端和客户端写同一套模版页面，进行配置化的渲染。
+
+前段支持angular.js，后段使用xtemplate
+
 2016.8.8
 
 npm run start
