@@ -18,7 +18,11 @@ npm run start
 
 端口默认是3000
 
+样板代码放在public中，使用angularjs1.directive写的。
 
+第一次渲染的文件应该有一个json被系统检测到，会使用xtemplate做一次渲染。
+
+第二次渲染会被angular完全渲染
 
 
 # stream
