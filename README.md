@@ -16,6 +16,9 @@ multi-level-distribute-render-server
 
 npm run start
 
+端口默认是3000
+
+
 
 
 # stream
